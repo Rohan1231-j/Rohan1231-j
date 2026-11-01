@@ -49,3 +49,23 @@ python3 make_music_lofi.py lofi.wav 17.1
 python3 make_reel_v2.py <assets_dir> v2_video.mp4 "Lakeside Café"   # title text is the 3rd argument
 ffmpeg -i v2_video.mp4 -i lofi.wav -map 0:v -map 1:a -c:v copy -af loudnorm=I=-14:TP=-1 -c:a aac -b:a 192k rohan_reel_v2.mp4
 ```
+
+---
+
+# v3: 30 s cinematic Gen-Z edit
+
+**File:** [`rohan_cinematic_30s.mp4`](rohan_cinematic_30s.mp4) (1080×1920, 30 s, original 100 BPM soundtrack with synced SFX)
+
+- **Intro (0–6 s):** the letterbox opens like an eye, with dissolves, light leaks, typed "01.11.2026" / "a short film by rohan", the title *slow days*, and a waterfall in slow-mo with a riser and a beat-pause before the drop.
+- **Drop 1 (6 s):** flash, RGB split, shake and a speed-ramp punch-in on the towers, then "rohan. (main character)".
+- **Café run:** beat cuts at 0.6 / 1.2 s, whip pans with whoosh SFX, a speed-ramped waterfall, *coffee first.* and *no plans. no rush.*
+- **Breakdown (17.4 s):** *breathe.* over slow-mo water with the real water sound.
+- **Drop 2 (20.4 s):** faster city cuts and *golden hour hits different*.
+- **Outro:** a slow pull-out on the sunset shot, *romanticize the ordinary.*, then the letterbox closes and "fin."
+
+Look: teal/orange film grade, lifted blacks, halation glow, grain, vignette.
+
+```bash
+python3 make_music_cinematic.py cine.wav
+python3 make_cinematic.py <assets_dir> cine_video.mp4     # ~12 min render
+```
