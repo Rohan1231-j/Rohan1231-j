@@ -29,3 +29,23 @@ python3 make_music.py music.wav
 python3 make_reel.py <folder with the photos + clip> music.wav rohan_city_reel.mp4
 ```
 Needs Python 3 with numpy and Pillow, plus ffmpeg.
+
+---
+
+# v2: matches the reference reel's style
+
+**Files:** [`rohan_reel_v2.mp4`](rohan_reel_v2.mp4) (with an original lo-fi track) and
+[`rohan_reel_v2_no_music.mp4`](rohan_reel_v2_no_music.mp4) (silent, for adding a trending sound inside Instagram)
+
+What it copies from the reference: 21 shots with a hard cut **exactly every 0.8 s** (scene detection gives the same cut
+times as the reference: 0.8, 1.6 … 16.0 s), no transitions, a slow handheld drift on every shot, a warm sunset grade,
+and a bold-italic yellow location title with 😍 on the first 4 shots. Length is 17.1 s, the same as the reference.
+
+**To use the reference reel's song:** upload `rohan_reel_v2_no_music.mp4`, tap *Add audio*, pick the same sound,
+and start it at the beat. The cuts follow its 0.8 s rhythm (75 BPM).
+
+```bash
+python3 make_music_lofi.py lofi.wav 17.1
+python3 make_reel_v2.py <assets_dir> v2_video.mp4 "Lakeside Café"   # title text is the 3rd argument
+ffmpeg -i v2_video.mp4 -i lofi.wav -map 0:v -map 1:a -c:v copy -af loudnorm=I=-14:TP=-1 -c:a aac -b:a 192k rohan_reel_v2.mp4
+```
