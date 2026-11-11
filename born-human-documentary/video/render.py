@@ -186,7 +186,7 @@ def main():
     outp = sys.argv[3]
     nframes = int(tl["total"] * FPS)
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgra", "-s", f"{W}x{H}", "-r",
-           str(FPS), "-i", "-", "-i", str(d / f"ch{num:02d}_mix.wav"), "-c:v", "libx264", "-preset", "medium",
+           str(FPS), "-i", "-", "-i", str(d / f"ch{num:02d}_mix.wav"), "-c:v", "libx264", "-preset", "veryfast",
            "-tune", "animation", "-crf", "24", "-pix_fmt", "yuv420p", "-af", "loudnorm=I=-16:TP=-1.5:LRA=11", "-ar", "48000", "-c:a", "aac", "-b:a", "160k", "-shortest",
            "-movflags", "+faststart", outp]
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
