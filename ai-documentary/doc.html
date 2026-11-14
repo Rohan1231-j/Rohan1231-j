@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neural Horizon</title>
+<style>
+@font-face{font-family:Inter;font-weight:400;src:url(fonts/inter-latin-400-normal.woff2)}
+@font-face{font-family:Inter;font-weight:500;src:url(fonts/inter-latin-500-normal.woff2)}
+@font-face{font-family:Inter;font-weight:600;src:url(fonts/inter-latin-600-normal.woff2)}
+@font-face{font-family:Inter;font-weight:700;src:url(fonts/inter-latin-700-normal.woff2)}
+@font-face{font-family:"Space Grotesk";font-weight:500;src:url(fonts/space-grotesk-latin-500-normal.woff2)}
+@font-face{font-family:"Space Grotesk";font-weight:700;src:url(fonts/space-grotesk-latin-700-normal.woff2)}
+@font-face{font-family:"JetBrains Mono";font-weight:400;src:url(fonts/jetbrains-mono-latin-400-normal.woff2)}
+@font-face{font-family:"JetBrains Mono";font-weight:600 700;src:url(fonts/jetbrains-mono-latin-600-normal.woff2)}
+html,body{margin:0;background:#000;height:100%}
+canvas{display:block;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;margin:auto;position:absolute;inset:0}
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script src="timeline.js"></script>
+<script src="engine.js"></script>
+<script src="scenes.js"></script>
+<script>
+window.ready = (async () => {
+  const fams = ['400 20px Inter','500 20px Inter','600 20px Inter','700 20px Inter','500 20px "Space Grotesk"','700 20px "Space Grotesk"','400 20px "JetBrains Mono"','600 20px "JetBrains Mono"'];
+  await Promise.all(fams.map(f => document.fonts.load(f)));
+  makeGrain(); makeVignette(); window.renderAt = renderAt; renderAt(0); return true;
+})();
+// live preview: ?t=seconds to jump; click to play with audio if present
+if (!location.search.includes('render')) {
+  const q = new URLSearchParams(location.search); let t0 = parseFloat(q.get('t') || '0');
+  const audio = new Audio('neural_horizon_audio.m4a'); let start = null;
+  window.ready.then(() => { renderAt(t0); });
+  document.addEventListener('click', () => {
+    audio.currentTime = t0; audio.play().catch(() => {}); start = performance.now() - t0 * 1000;
+    const loop = () => { const t = audio.paused || audio.readyState < 2 ? (performance.now() - start) / 1000 : audio.currentTime; if (t < TL.duration) { renderAt(t); requestAnimationFrame(loop); } };
+    loop();
+  }, { once: true });
+}
+</script>
+</body>
+</html>
