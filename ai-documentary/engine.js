@@ -413,7 +413,7 @@ function stageAt(sc, t) {
 function hud(c, sc, t, gt) {
   let a = NO_HUD.has(sc.type) ? 0 : 1;
   const prev = TL.scenes[sc.i - 1], next = TL.scenes[sc.i + 1];
-  if (!a && next && !NO_HUD.has(next.type)) a = P(t, sc.dur - .6, sc.dur);
+  if (!a && next && !NO_HUD.has(next.type) && next.type !== 'chapter') a = P(t, sc.dur - .6, sc.dur);
   if (a && prev && NO_HUD.has(prev.type)) a = Math.min(a, P(t, 0, .8));
   if (sc.type === 'chapter') a *= .0 + P(t, sc.dur - .8, sc.dur);
   if (a <= 0) return;
